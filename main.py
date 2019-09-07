@@ -178,8 +178,7 @@ try:
             OLED.Delay(2000)
 
 
-    if __name__ == '__main__':
-        main()
+    main()
 
 except:
     print("\r\nEnd")
