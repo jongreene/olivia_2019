@@ -10,6 +10,8 @@ from PIL import ImageFont
 from PIL import ImageColor
 #-------------Test Display Functions---------------#
 
+print "---- LCD ----"
+
 def Test_Text():
     image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
@@ -29,7 +31,7 @@ def Test_Text():
 def Test_Pattern():
     image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
-    
+
     draw.line([(0,8), (127,8)],   fill = "RED",    width = 16)
     draw.line([(0,24),(127,24)],  fill = "YELLOW", width = 16)
     draw.line([(0,40),(127,40)],  fill = "GREEN",  width = 16)
@@ -38,7 +40,7 @@ def Test_Pattern():
     draw.line([(0,88),(127,88)],  fill = "MAGENTA",width = 16)
     draw.line([(0,104),(127,104)],fill = "BLACK",  width = 16)
     draw.line([(0,120),(127,120)],fill = "WHITE",  width = 16)
-    
+
     OLED.Display_Image(image)
 
 
@@ -72,7 +74,7 @@ def Test_Lines():
         OLED.Display_Image(image)
     draw.rectangle([0, 0, OLED.SSD1351_WIDTH - 1, OLED.SSD1351_HEIGHT - 1], fill = "BLACK", outline = "BLACK")
     OLED.Delay(250)
-    
+
     for x in range(0, int((OLED.SSD1351_WIDTH-1)/2), 6):
         draw.line([(OLED.SSD1351_WIDTH - 1, OLED.SSD1351_HEIGHT - 1), (x, 0)], fill = "GREEN", width = 1)
         draw.line([(OLED.SSD1351_WIDTH - 1, OLED.SSD1351_HEIGHT - 1), (x + int((OLED.SSD1351_WIDTH-1)/2), 0)], fill = "GREEN", width = 1)
@@ -85,7 +87,7 @@ def Test_Lines():
 def Test_HV_Lines():
     image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
-    
+
     for y in range(0, OLED.SSD1351_HEIGHT - 1, 5):
         draw.line([(0, y), (OLED.SSD1351_WIDTH - 1, y)], fill = "WHITE", width = 1)
     OLED.Display_Image(image)
@@ -98,16 +100,16 @@ def Test_HV_Lines():
 def Test_Rects():
     image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
-    
+
     for x in range(0, int((OLED.SSD1351_WIDTH-1)/2), 6):
         draw.rectangle([(x, x), (OLED.SSD1351_WIDTH- 1 - x, OLED.SSD1351_HEIGHT-1 - x)], fill = None, outline = "WHITE")
     OLED.Display_Image(image)
 
 
-def Test_FillRects(): 
+def Test_FillRects():
     image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
-    
+
     for x in range(OLED.SSD1351_HEIGHT-1, int((OLED.SSD1351_HEIGHT-1)/2), -6):
         draw.rectangle([(x, x), ((OLED.SSD1351_WIDTH-1) - x, (OLED.SSD1351_HEIGHT-1) - x)], fill = "BLUE", outline = "BLUE")
         draw.rectangle([(x, x), ((OLED.SSD1351_WIDTH-1) - x, (OLED.SSD1351_HEIGHT-1) - x)], fill = None, outline = "YELLOW")
@@ -129,7 +131,7 @@ def Test_Circles():
 def Test_Triangles():
     image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
-    
+
     for i in range(0, int(OLED.SSD1351_WIDTH/2), 4):
         draw.line([(i, OLED.SSD1351_HEIGHT - 1 - i), (OLED.SSD1351_WIDTH/2, i)], fill = (255 - i*4, i*4, 255 - i*4), width = 1)
         draw.line([(i, OLED.SSD1351_HEIGHT - 1 - i), (OLED.SSD1351_WIDTH - 1 - i, OLED.SSD1351_HEIGHT - 1 - i)], fill = (i*4, i*4 ,255 - i*4), width = 1)
@@ -145,7 +147,7 @@ def Display_Picture(File_Name):
 try:
 
     def main():
-    
+
         #-------------OLED Init------------#
         OLED.Device_Init()
 
@@ -160,7 +162,7 @@ try:
         OLED.Delay(2000)
         Test_Rects()
         OLED.Delay(1000)
-        Test_FillRects() 
+        Test_FillRects()
         OLED.Delay(2000)
         Test_Circles()
         OLED.Delay(2000)
@@ -185,3 +187,4 @@ except:
     GPIO.cleanup()
 
 
+print "---- LCD ----"
