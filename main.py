@@ -170,15 +170,15 @@ try:
         # OLED.Delay(2000)
 
         while (True):
-            Display_Picture("picture1.jpg")
+	        Display_Picture("picture1.jpg")
+	        OLED.Delay(5000)
+	        Display_Picture("picture2.jpg")
+	        OLED.Delay(5000)
+	        Display_Picture("picture3.jpg")
             OLED.Delay(5000)
-            Display_Picture("picture2.jpg")
+            Display_Picture("picture4.jpg")
             OLED.Delay(5000)
-            Display_Picture("picture3.jpg")
-            OLED.Delay(5000)
-			Display_Picture("picture4.jpg")
-            OLED.Delay(5000)
-			Display_Picture("picture5.jpg")
+            Display_Picture("picture5.jpg")
             OLED.Delay(5000)
 
     main()
