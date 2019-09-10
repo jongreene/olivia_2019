@@ -175,11 +175,11 @@ try:
 	        Display_Picture("picture2.jpg")
 	        OLED.Delay(5000)
 	        Display_Picture("picture3.jpg")
-            OLED.Delay(5000)
-            Display_Picture("picture4.jpg")
-            OLED.Delay(5000)
-            Display_Picture("picture5.jpg")
-            OLED.Delay(5000)
+	        OLED.Delay(5000)
+	        Display_Picture("picture4.jpg")
+	        OLED.Delay(5000)
+	        Display_Picture("picture5.jpg")
+	        OLED.Delay(5000)
 
     main()
 
