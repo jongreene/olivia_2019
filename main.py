@@ -1,4 +1,6 @@
 # -*- coding:UTF-8 -*-
+import os
+        # os.remove(os.path.join(root, name))
 
 #--------------Driver Library-----------------#
 import RPi.GPIO as GPIO
@@ -16,52 +18,81 @@ GPIO.setup(2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 print "---- LCD ----"
 
-display_on = True
+slide_show = True
 
-def middlePress():
-    global display_on
-    display_on = not display_on
+def clock():
+    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype('cambriab.ttf',24)
+    draw.text((0, 12), 'Olivia', fill = "BLUE", font = font)
+    draw.text((0, 36), 'Ruff', fill = "BLUE",font = font)
+    draw.text((20, 72), '1.5 inch', fill = "CYAN", font = font)
+    draw.text((10, 96), 'R', fill = "RED", font = font)
+    draw.text((25, 96), 'G', fill = "GREEN", font = font)
+    draw.text((40, 96), 'B', fill = "BLUE", font = font)
+    draw.text((55, 96), ' OLED', fill = "CYAN", font = font)
+    OLED.Display_Image(image)
+
+def screenOff():
     GPIO.setmode(GPIO.BCM)
     OLED.Clear_Screen()
+    global slide_show
+    slide_show = not slide_show
+
+return_state = "slide"
+current_state = "slide"
+
+def changeState(next_state):
+	global return_state
+	global current_state
+	if(current_state is "off" and next_state is "off"):
+		current_state = return_state
+	elif(next_state is "off"):
+		return_state = current_state
+		current_state = "off"
+	elif(next_state is not current_state):
+		current_state = next_state
 
 def Display_Picture(File_Name):
     image = Image.open(File_Name)
     OLED.Display_Image(image)
 
-def my_callback(channel):
-    print "right press"
-    Display_Picture("images/picture1.jpg")
+def rightPress(channel):
+	changeState("clock")
 
-def my_callback2(channel):
-    print "left press"
-    Display_Picture("images/picture2.jpg")
+def leftPress(channel):
+	changeState("slide")
 
-def my_callback3(channel):
-    print "middle press"
-    middlePress()
+def middlePress(channel):
+	changeState("off")
 
-GPIO.add_event_detect(4, GPIO.FALLING, callback=my_callback, bouncetime=300)
-GPIO.add_event_detect(3, GPIO.FALLING, callback=my_callback3, bouncetime=300)
-GPIO.add_event_detect(2, GPIO.FALLING, callback=my_callback2, bouncetime=300)
+GPIO.add_event_detect(4, GPIO.FALLING, callback=rightPress, bouncetime=300)
+GPIO.add_event_detect(3, GPIO.FALLING, callback=middlePress, bouncetime=300)
+GPIO.add_event_detect(2, GPIO.FALLING, callback=leftPress, bouncetime=300)
+
+def slideShow():
+	global current_state
+	for root, dirs, files in os.walk("images", topdown=False):
+		if(current_state is not "slide"):
+			break
+		for name in files:
+			if(current_state is not "slide"):
+				break
+			Display_Picture(os.path.join(root, name))
+			OLED.Delay(5000)
+
+def loop():
+	if(current_state is "slide"):
+		slideShow()
+	elif(current_state is "off"):
+		screenOff()
+	elif(current_state is "clock"):
+		clock()
 
 try:
 	OLED.Device_Init()
 	while (1):
-		if(display_on):
-			Display_Picture("images/picture1.jpg")
-			OLED.Delay(5000)
-		if(display_on):
-			Display_Picture("images/picture2.jpg")
-			OLED.Delay(5000)
-		if(display_on):
-			Display_Picture("images/picture3.jpg")
-			OLED.Delay(5000)
-		if(display_on):
-			Display_Picture("images/picture4.jpg")
-			OLED.Delay(5000)
-		if(display_on):
-			Display_Picture("images/picture5.jpg")
-			OLED.Delay(5000)
+		loop()
 		sleep(0.01)
 
 except KeyboardInterrupt:
@@ -72,4 +103,3 @@ except KeyboardInterrupt:
 GPIO.cleanup()           # clean up GPIO on normal exit
 
 print "---- LCD ----"
-
