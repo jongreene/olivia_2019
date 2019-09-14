@@ -18,40 +18,22 @@ GPIO.setup(2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 print "---- LCD ----"
 
-slide_show = True
 
-def clock():
-    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
-    draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('cambriab.ttf',24)
-    draw.text((0, 12), 'Olivia', fill = "BLUE", font = font)
-    draw.text((0, 36), 'Ruff', fill = "BLUE",font = font)
-    draw.text((20, 72), '1.5 inch', fill = "CYAN", font = font)
-    draw.text((10, 96), 'R', fill = "RED", font = font)
-    draw.text((25, 96), 'G', fill = "GREEN", font = font)
-    draw.text((40, 96), 'B', fill = "BLUE", font = font)
-    draw.text((55, 96), ' OLED', fill = "CYAN", font = font)
-    OLED.Display_Image(image)
-
-def screenOff():
-    GPIO.setmode(GPIO.BCM)
-    OLED.Clear_Screen()
-    global slide_show
-    slide_show = not slide_show
 
 return_state = "slide"
 current_state = "slide"
 
 def changeState(next_state):
-	global return_state
-	global current_state
-	if(current_state is "off" and next_state is "off"):
-		current_state = return_state
-	elif(next_state is "off"):
-		return_state = current_state
-		current_state = "off"
-	elif(next_state is not current_state):
-		current_state = next_state
+    global return_state
+    global current_state
+    if(current_state is "off" and next_state is "off"):
+        current_state = return_state
+    elif(next_state is "off"):
+        screenOff()
+        return_state = current_state
+        current_state = "off"
+    elif(next_state is not current_state):
+        current_state = next_state
 
 def Display_Picture(File_Name):
     image = Image.open(File_Name)
@@ -70,6 +52,24 @@ GPIO.add_event_detect(4, GPIO.FALLING, callback=rightPress, bouncetime=300)
 GPIO.add_event_detect(3, GPIO.FALLING, callback=middlePress, bouncetime=300)
 GPIO.add_event_detect(2, GPIO.FALLING, callback=leftPress, bouncetime=300)
 
+def screenOff():
+    GPIO.setmode(GPIO.BCM)
+    OLED.Clear_Screen()
+
+def clock():
+	image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
+	draw = ImageDraw.Draw(image)
+	font = ImageFont.truetype('cambriab.ttf',24)
+	draw.text((0, 12), 'Olivia', fill = "BLUE", font = font)
+	draw.text((0, 36), 'Ruff', fill = "BLUE",font = font)
+	draw.text((20, 72), '1.5 inch', fill = "CYAN", font = font)
+	draw.text((10, 96), 'R', fill = "RED", font = font)
+	draw.text((25, 96), 'G', fill = "GREEN", font = font)
+	draw.text((40, 96), 'B', fill = "BLUE", font = font)
+	draw.text((55, 96), ' OLED', fill = "CYAN", font = font)
+	OLED.Display_Image(image)
+	OLED.Delay(1)
+
 def slideShow():
 	global current_state
 	for root, dirs, files in os.walk("images", topdown=False):
@@ -84,10 +84,10 @@ def slideShow():
 def loop():
 	if(current_state is "slide"):
 		slideShow()
-	elif(current_state is "off"):
-		screenOff()
 	elif(current_state is "clock"):
 		clock()
+	else:
+		OLED.Clear_Screen()
 
 try:
 	OLED.Device_Init()
