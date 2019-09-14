@@ -30,11 +30,11 @@ def Display_Picture(File_Name):
 
 def my_callback(channel):
     print "right press"
-    Display_Picture("picture1.jpg")
+    Display_Picture("images/picture1.jpg")
 
 def my_callback2(channel):
     print "left press"
-    Display_Picture("picture2.jpg")
+    Display_Picture("images/picture2.jpg")
 
 def my_callback3(channel):
     print "middle press"
@@ -48,19 +48,19 @@ try:
 	OLED.Device_Init()
 	while (1):
 		if(display_on):
-			Display_Picture("picture1.jpg")
+			Display_Picture("images/picture1.jpg")
 			OLED.Delay(5000)
 		if(display_on):
-			Display_Picture("picture2.jpg")
+			Display_Picture("images/picture2.jpg")
 			OLED.Delay(5000)
 		if(display_on):
-			Display_Picture("picture3.jpg")
+			Display_Picture("images/picture3.jpg")
 			OLED.Delay(5000)
 		if(display_on):
-			Display_Picture("picture4.jpg")
+			Display_Picture("images/picture4.jpg")
 			OLED.Delay(5000)
 		if(display_on):
-			Display_Picture("picture5.jpg")
+			Display_Picture("images/picture5.jpg")
 			OLED.Delay(5000)
 		sleep(0.01)
 
