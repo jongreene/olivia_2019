@@ -59,9 +59,9 @@ def clock():
 	image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
 	draw = ImageDraw.Draw(image)
 	font = ImageFont.truetype('cambriab.ttf',24)
-	draw.text((0, 12), 'Olivia', fill = "BLUE", font = font)
-	draw.text((0, 36), 'Ruff', fill = "BLUE",font = font)
-	draw.text((0, 36), str(currentDT), fill = "BLUE",font = font)
+	draw.text((0, 12), 'You are', fill = "BLUE", font = font)
+	draw.text((0, 36), 'Beautiful', fill = "BLUE",font = font)
+	draw.text((0, 72), currentDT.strftime("%H:%M:%S"), fill = "BLUE",font = font)
 	OLED.Display_Image(image)
 	OLED.Delay(1)
 
