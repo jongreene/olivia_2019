@@ -1,7 +1,5 @@
 # -*- coding:UTF-8 -*-
 import os
-        # os.remove(os.path.join(root, name))
-
 #--------------Driver Library-----------------#
 import RPi.GPIO as GPIO
 import OLED_Driver as OLED
@@ -11,14 +9,13 @@ from PIL import ImageDraw
 from PIL import ImageFont
 from PIL import ImageColor
 from time import sleep
+import datetime
 
 GPIO.setup(4, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(3, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 print "---- LCD ----"
-
-
 
 return_state = "slide"
 current_state = "slide"
@@ -57,16 +54,14 @@ def screenOff():
     OLED.Clear_Screen()
 
 def clock():
+	currentDT = datetime.datetime.now()
+	print (str(currentDT))
 	image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
 	draw = ImageDraw.Draw(image)
 	font = ImageFont.truetype('cambriab.ttf',24)
 	draw.text((0, 12), 'Olivia', fill = "BLUE", font = font)
 	draw.text((0, 36), 'Ruff', fill = "BLUE",font = font)
-	draw.text((20, 72), '1.5 inch', fill = "CYAN", font = font)
-	draw.text((10, 96), 'R', fill = "RED", font = font)
-	draw.text((25, 96), 'G', fill = "GREEN", font = font)
-	draw.text((40, 96), 'B', fill = "BLUE", font = font)
-	draw.text((55, 96), ' OLED', fill = "CYAN", font = font)
+	draw.text((0, 36), str(currentDT), fill = "BLUE",font = font)
 	OLED.Display_Image(image)
 	OLED.Delay(1)
 
