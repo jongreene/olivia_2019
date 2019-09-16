@@ -62,8 +62,7 @@ def clock():
 	font = ImageFont.truetype('cambriab.ttf',30)
 	draw.text((0, 0), 'You are', fill = "WHITE", font = font)
 	draw.text((0, 34), 'Beautiful', fill = "WHITE",font = font)
-	draw.text((0, 60), currentDT.strftime("%H:%M"), fill = "WHITE",font = font)
-	draw.text((40, 90), currentDT.strftime("%S"), fill = "WHITE",font = font)
+	draw.text((0, 70), currentDT.strftime("%H:%M:%S"), fill = "WHITE",font = font)
 	OLED.Display_Image(image)
 	OLED.Delay(1)
 
